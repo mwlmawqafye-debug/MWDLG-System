@@ -26,13 +26,14 @@ try:
 except Exception as e:
     print("--- Firebase Connection Test FAILED ---")
     if 'modl-mawkuf-key.json' in str(e):
-        print("Reason: Service key file not found at 'modl-mawkuf-key.json'. Please check Render Secret File or local file.")
+        print("Reason: Service key file not found. Check Render Secret File or local file.")
     elif 'FIREBASE_CREDENTIALS' in str(e):
         print("Reason: Failed to parse FIREBASE_CREDENTIALS environment variable.")
     else:
         print(f"Reason: {e}")
     db = None # Set db to None if initialization fails
 
+# Force new build v2
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/static')
 
 # Middleware to check DB connection
