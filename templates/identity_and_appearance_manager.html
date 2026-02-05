@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الهوية والمظهر</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Mola&family=Amiri&family=Tajawal&family=Scheherazade+New&family=IBM+Plex+Sans+Arabic&display=swap');
+
+        :root {
+            --waqf-green: #1b4d3e;
+            --manuscript-beige: #f5f5dc;
+            --manuscript-brown: #8b4513;
+            --dusty-gold: #c9a86a;
+            --ink-black: #343a40;
+            --vellum-cream: #fdf6e3;
+            --sovereign-blue: #003366;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+            --background-color: #f8f9fa;
+            --text-color: #212529;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-family: 'Mola', sans-serif;
+            font-size: 24px;
+            margin: 0;
+            color: var(--waqf-green);
+        }
+
+        .save-button {
+            background-color: var(--waqf-green);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-family: 'Cairo', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .save-button:hover {
+            background-color: #153e32;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--waqf-green);
+            display: flex;
+            align-items: center;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        /* Color Matrix */
+        .color-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .color-option {
+            position: relative;
+        }
+
+        .color-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .color-option .palette-label {
+            display: block;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            cursor: pointer;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .color-option input[type="radio"]:checked + .palette-label {
+            border-color: var(--waqf-green);
+            box-shadow: 0 0 10px rgba(27, 77, 62, 0.3);
+        }
+
+        .palette-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .color-swatches {
+            display: flex;
+            height: 30px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .swatch {
+            flex: 1;
+        }
+
+        /* Toggle Switch */
+        .toggle-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 28px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--waqf-green);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <header class="header">
+            <h1>إدارة الهوية والمظهر</h1>
+            <button class="save-button">
+                <!-- Placeholder for icon --> 💾 تثبيت التغييرات
+            </button>
+        </header>
+
+        <div class="card">
+            
+            <div class="section">
+                <h2 class="card-title">بيانات التعريف الأساسية</h2>
+                <div class="form-group">
+                    <label for="system-title">عنوان النظام الرسمي</label>
+                    <input type="text" id="system-title" value="نظام المخطوطات والوثائق والمكتبات الوقفية">
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="card-title">مصفوفة الألوان السبعة (The 7-Color Matrix)</h2>
+                <div class="color-matrix">
+                    <!-- Option 1: Waqf Blend -->
+                    <div class="color-option">
+                        <input type="radio" id="color-waqf" name="color_matrix" value="waqf" checked>
+                        <label class="palette-label" for="color-waqf">
+                            <div class="palette-name">مزيج الأوقاف (Waqf)</div>
+                            <div class="color-swatches">
+                                <div class="swatch" style="background-color: #1b4d3e;"></div>
+                                <div class="swatch" style="background-color: #c9a86a;"></div>
+                                <div class="swatch" style="background-color: #ffffff; border: 1px solid #eee;"></div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Other color options here, structured similarly -->
+                    <div class="color-option">
+                        <input type="radio" id="color-manuscript" name="color_matrix" value="manuscript">
+                         <label class="palette-label" for="color-manuscript">
+                            <div class="palette-name">مزيج المخطوطات</div>
+                            <div class="color-swatches">
+                                <div class="swatch" style="background-color: #8b4513;"></div>
+                                <div class="swatch" style="background-color: #f5f5dc;"></div>
+                                <div class="swatch" style="background-color: #c9a86a;"></div>
+                            </div>
+                        </label>
+                    </div>
+                     <div class="color-option">
+                        <input type="radio" id="color-hybrid" name="color_matrix" value="hybrid">
+                         <label class="palette-label" for="color-hybrid">
+                            <div class="palette-name">الهوية الممتزجة</div>
+                            <div class="color-swatches">
+                                <div class="swatch" style="background-color: #1b4d3e;"></div>
+                                <div class="swatch" style="background-color: #f5f5dc;"></div>
+                                <div class="swatch" style="background-color: #ffffff; border: 1px solid #eee;"></div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="color-option">
+                        <input type="radio" id="color-sovereign" name="color_matrix" value="sovereign">
+                         <label class="palette-label" for="color-sovereign">
+                            <div class="palette-name">لازورد المخطوطات</div>
+                            <div class="color-swatches">
+                                <div class="swatch" style="background-color: #003366;"></div>
+                                <div class="swatch" style="background-color: #c9a86a;"></div>
+                                 <div class="swatch" style="background-color: #ffffff; border: 1px solid #eee;"></div>
+                            </div>
+                        </label>
+                    </div>
+                    <!-- Add other palettes similarly -->
+                </div>
+                 <div class="form-group toggle-group" style="margin-top: 20px;">
+                    <label for="frappe-mode" style="margin-bottom: 0;">نمط فرابي الحديث (Frappe Mode)</label>
+                    <label class="switch">
+                        <input type="checkbox" id="frappe-mode">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="card-title">أرشيف الخطوط الكامل (Typography)</h2>
+                <div class="form-group">
+                    <label for="title-font">خط العناوين السيادي</label>
+                    <select id="title-font">
+                        <option value="Mola">Mola (حصري للعنوان)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="system-font">خط الواجهة والمتن</label>
+                    <select id="system-font">
+                        <option value="Cairo" selected>Cairo (أبجدي)</option>
+                        <option value="Amiri">Amiri (نسخي)</option>
+                        <option value="Mawla">Mawla (نصي)</option>
+                        <option value="Tajawal">Tajawal (نصي)</option>
+                        <option value="Scheherazade New">Scheherazade New (أبجدي)</option>
+                        <option value="IBM Plex Sans Arabic">IBM Plex Sans Arabic (حديث)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="card-title">العناصر الزخرفية (Sovereign Pattern)</h2>
+                <div class="form-group toggle-group">
+                    <label for="subtle-pattern" style="margin-bottom: 0;">تفعيل نقوش إسلامية خفيفة في خلفية النظام</label>
+                    <label class="switch">
+                        <input type="checkbox" id="subtle-pattern">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/static/js/identity_and_appearance_manager.js"></script>
+</body>
+</html>
