@@ -33,17 +33,18 @@ except Exception as e:
         print(f"Reason: {e}")
     db = None # Set db to None if initialization fails
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
+app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/static')
 
 # Middleware to check DB connection
 @app.before_request
 def before_request_func():
-    if db is None:
+    if db is None and request.path != '/': # Allow access to home page even if DB fails
         return jsonify({"status": "error", "message": "Database connection failed. Check server logs."}), 503
 
 @app.route('/')
 def index():
-    return "<h1>MWDLG Core Engine is running!</h1>" 
+    # Renders the main landing page
+    return render_template('index.html')
 
 @app.route('/identity_and_appearance')
 def identity_and_appearance_manager():
