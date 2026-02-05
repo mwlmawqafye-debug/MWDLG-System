@@ -8,6 +8,8 @@ from engine.ui_engine import DynamicUIEngine
 from engine.workflow_engine import WorkflowEngine
 
 # --- Firebase Initialization ---
+# This block handles Firebase connection for both Render (using env vars)
+# and local development (using a key file).
 try:
     creds_json_str = os.environ.get('FIREBASE_CREDENTIALS')
     if creds_json_str:
