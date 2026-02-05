@@ -3,328 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة الهوية والمظهر</title>
+    <title>إدارة الهوية والمظهر - محرك الأنظمة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Mola&family=Amiri&family=Tajawal&family=Scheherazade+New&family=IBM+Plex+Sans+Arabic&display=swap');
-
         :root {
-            --waqf-green: #1b4d3e;
-            --manuscript-beige: #f5f5dc;
-            --manuscript-brown: #8b4513;
-            --dusty-gold: #c9a86a;
-            --ink-black: #343a40;
-            --vellum-cream: #fdf6e3;
-            --sovereign-blue: #003366;
-            --white: #ffffff;
-            --border-color: #e0e0e0;
-            --background-color: #f8f9fa;
-            --text-color: #212529;
-            --card-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            --border-radius: 8px;
+            --primary-bg: #f4f7f6;
+            --content-bg: #ffffff;
+            --primary-text: #333333;
+            --heading-text: #1b4d3e;
+            --accent-color: #1b4d3e;
+            --border-color: #dee2e6;
+            --input-bg: #f8f9fa;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
-
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
             margin: 0;
-            padding: 20px;
+            padding: 40px;
         }
-
-        .main-container {
+        .container {
             max-width: 900px;
-            margin: auto;
+            margin: 0 auto;
+            background-color: var(--content-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
         }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+        header {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
         }
-
-        .header h1 {
-            font-family: 'Mola', sans-serif;
-            font-size: 24px;
+        header h1 {
+            color: var(--heading-text);
+            font-size: 2.2em;
             margin: 0;
-            color: var(--waqf-green);
         }
-
-        .save-button {
-            background-color: var(--waqf-green);
-            color: var(--white);
-            border: none;
-            padding: 10px 20px;
-            border-radius: var(--border-radius);
-            font-family: 'Cairo', sans-serif;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
+        header p {
+            color: #6c757d;
+            font-size: 1.1em;
+            margin-top: 5px;
         }
-
-        .save-button:hover {
-            background-color: #153e32;
-        }
-
-        .card {
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-
-        .card-title {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--waqf-green);
-            display: flex;
-            align-items: center;
-        }
-
-        .section {
+        .form-group {
             margin-bottom: 25px;
         }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
         .form-group label {
             display: block;
-            margin-bottom: 8px;
             font-weight: 600;
-            font-size: 14px;
+            margin-bottom: 8px;
+            font-size: 1.1em;
         }
-
-        .form-group input[type="text"],
-        .form-group select {
+        .form-group input[type="text"], .form-group input[type="color"] {
             width: 100%;
-            padding: 10px;
-            border-radius: var(--border-radius);
+            padding: 12px 15px;
             border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--input-bg);
             font-family: 'Cairo', sans-serif;
-        }
-        
-        /* Color Matrix */
-        .color-matrix {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .color-option {
-            position: relative;
-        }
-
-        .color-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .color-option .palette-label {
-            display: block;
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 15px;
-            cursor: pointer;
+            font-size: 1em;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
-        
-        .color-option input[type="radio"]:checked + .palette-label {
-            border-color: var(--waqf-green);
-            box-shadow: 0 0 10px rgba(27, 77, 62, 0.3);
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
         }
-
-        .palette-name {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .color-swatches {
+        .color-input-wrapper {
             display: flex;
-            height: 30px;
-            border-radius: 4px;
-            overflow: hidden;
+            align-items: center;
+            gap: 15px;
         }
-
-        .swatch {
-            flex: 1;
+        .color-input-wrapper input[type="color"] {
+            width: 50px;
+            height: 50px;
+            padding: 5px;
+            flex-shrink: 0;
         }
-
-        /* Toggle Switch */
-        .toggle-group {
+        .form-actions {
+            margin-top: 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 28px;
-        }
-
-        .switch input { 
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
             cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 28px;
+            transition: background-color 0.3s, transform 0.2s;
         }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #ffffff;
         }
-
-        input:checked + .slider {
-            background-color: var(--waqf-green);
+        .btn-primary:hover {
+            background-color: #0d2e20;
+            transform: translateY(-2px);
         }
-
-        input:checked + .slider:before {
-            transform: translateX(22px);
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
         }
-
+        #response-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            font-weight: 600;
+        }
+        #response-message.success {
+            background-color: #e6f9f0;
+            color: #1b4d3e;
+        }
+        #response-message.error {
+            background-color: #fbeae5;
+            color: #d9534f;
+        }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        <header class="header">
+    <div class="container">
+        <header>
             <h1>إدارة الهوية والمظهر</h1>
-            <button class="save-button">
-                <!-- Placeholder for icon --> 💾 تثبيت التغييرات
-            </button>
+            <p>تحكم في المظهر العام للنظام من هذه الواجهة.</p>
         </header>
 
-        <div class="card">
-            
-            <div class="section">
-                <h2 class="card-title">بيانات التعريف الأساسية</h2>
-                <div class="form-group">
-                    <label for="system-title">عنوان النظام الرسمي</label>
-                    <input type="text" id="system-title" value="نظام المخطوطات والوثائق والمكتبات الوقفية">
+        <form id="identity-form">
+            <div class="form-group">
+                <label for="app-name">اسم النظام</label>
+                <input type="text" id="app-name" name="app-name" placeholder="مثال: نظام الموقوفين">
+            </div>
+
+            <div class="form-group">
+                <label for="primary-color">اللون الأساسي</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="primary-color" name="primary-color" value="#1b4d3e">
+                    <input type="text" id="primary-color-hex" name="primary-color-hex" placeholder="#1b4d3e">
                 </div>
             </div>
 
-            <div class="section">
-                <h2 class="card-title">مصفوفة الألوان السبعة (The 7-Color Matrix)</h2>
-                <div class="color-matrix">
-                    <!-- Option 1: Waqf Blend -->
-                    <div class="color-option">
-                        <input type="radio" id="color-waqf" name="color_matrix" value="waqf" checked>
-                        <label class="palette-label" for="color-waqf">
-                            <div class="palette-name">مزيج الأوقاف (Waqf)</div>
-                            <div class="color-swatches">
-                                <div class="swatch" style="background-color: #1b4d3e;"></div>
-                                <div class="swatch" style="background-color: #c9a86a;"></div>
-                                <div class="swatch" style="background-color: #ffffff; border: 1px solid #eee;"></div>
-                            </div>
-                        </label>
-                    </div>
-
-                    <!-- Other color options here, structured similarly -->
-                    <div class="color-option">
-                        <input type="radio" id="color-manuscript" name="color_matrix" value="manuscript">
-                         <label class="palette-label" for="color-manuscript">
-                            <div class="palette-name">مزيج المخطوطات</div>
-                            <div class="color-swatches">
-                                <div class="swatch" style="background-color: #8b4513;"></div>
-                                <div class="swatch" style="background-color: #f5f5dc;"></div>
-                                <div class="swatch" style="background-color: #c9a86a;"></div>
-                            </div>
-                        </label>
-                    </div>
-                     <div class="color-option">
-                        <input type="radio" id="color-hybrid" name="color_matrix" value="hybrid">
-                         <label class="palette-label" for="color-hybrid">
-                            <div class="palette-name">الهوية الممتزجة</div>
-                            <div class="color-swatches">
-                                <div class="swatch" style="background-color: #1b4d3e;"></div>
-                                <div class="swatch" style="background-color: #f5f5dc;"></div>
-                                <div class="swatch" style="background-color: #ffffff; border: 1px solid #eee;"></div>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="color-option">
-                        <input type="radio" id="color-sovereign" name="color_matrix" value="sovereign">
-                         <label class="palette-label" for="color-sovereign">
-                            <div class="palette-name">لازورد المخطوطات</div>
-                            <div class="color-swatches">
-                                <div class="swatch" style="background-color: #003366;"></div>
-                                <div class="swatch" style="background-color: #c9a86a;"></div>
-                                 <div class="swatch" style="background-color: #ffffff; border: 1px solid #eee;"></div>
-                            </div>
-                        </label>
-                    </div>
-                    <!-- Add other palettes similarly -->
-                </div>
-                 <div class="form-group toggle-group" style="margin-top: 20px;">
-                    <label for="frappe-mode" style="margin-bottom: 0;">نمط فرابي الحديث (Frappe Mode)</label>
-                    <label class="switch">
-                        <input type="checkbox" id="frappe-mode">
-                        <span class="slider"></span>
-                    </label>
+            <div class="form-group">
+                <label for="secondary-color">اللون الثانوي</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="secondary-color" name="secondary-color" value="#f4f7f6">
+                    <input type="text" id="secondary-color-hex" name="secondary-color-hex" placeholder="#f4f7f6">
                 </div>
             </div>
 
-            <div class="section">
-                <h2 class="card-title">أرشيف الخطوط الكامل (Typography)</h2>
-                <div class="form-group">
-                    <label for="title-font">خط العناوين السيادي</label>
-                    <select id="title-font">
-                        <option value="Mola">Mola (حصري للعنوان)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="system-font">خط الواجهة والمتن</label>
-                    <select id="system-font">
-                        <option value="Cairo" selected>Cairo (أبجدي)</option>
-                        <option value="Amiri">Amiri (نسخي)</option>
-                        <option value="Mawla">Mawla (نصي)</option>
-                        <option value="Tajawal">Tajawal (نصي)</option>
-                        <option value="Scheherazade New">Scheherazade New (أبجدي)</option>
-                        <option value="IBM Plex Sans Arabic">IBM Plex Sans Arabic (حديث)</option>
-                    </select>
-                </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                <a href="/" class="btn btn-secondary">العودة إلى لوحة التحكم</a>
             </div>
+        </form>
 
-            <div class="section">
-                <h2 class="card-title">العناصر الزخرفية (Sovereign Pattern)</h2>
-                <div class="form-group toggle-group">
-                    <label for="subtle-pattern" style="margin-bottom: 0;">تفعيل نقوش إسلامية خفيفة في خلفية النظام</label>
-                    <label class="switch">
-                        <input type="checkbox" id="subtle-pattern">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
+        <div id="response-message"></div>
 
-        </div>
     </div>
 
-    <script src="/static/js/identity_and_appearance_manager.js"></script>
+    <script>
+        const colorPicker = document.getElementById('primary-color');
+        const colorHexInput = document.getElementById('primary-color-hex');
+        colorPicker.addEventListener('input', (e) => {
+            colorHexInput.value = e.target.value;
+        });
+        colorHexInput.addEventListener('input', (e) => {
+            colorPicker.value = e.target.value;
+        });
+
+        const secondaryColorPicker = document.getElementById('secondary-color');
+        const secondaryColorHexInput = document.getElementById('secondary-color-hex');
+        secondaryColorPicker.addEventListener('input', (e) => {
+            secondaryColorHexInput.value = e.target.value;
+        });
+        secondaryColorHexInput.addEventListener('input', (e) => {
+            secondaryColorPicker.value = e.target.value;
+        });
+
+        document.getElementById('identity-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const appName = document.getElementById('app-name').value;
+            const primaryColor = document.getElementById('primary-color-hex').value;
+            const secondaryColor = document.getElementById('secondary-color-hex').value;
+            
+            const responseMsgDiv = document.getElementById('response-message');
+
+            try {
+                const response = await fetch('/api/identity_settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        appName: appName, 
+                        primaryColor: primaryColor,
+                        secondaryColor: secondaryColor
+                    })
+                });
+
+                const result = await response.json();
+
+                responseMsgDiv.textContent = result.message;
+                if (response.ok) {
+                    responseMsgDiv.className = 'success';
+                } else {
+                    responseMsgDiv.className = 'error';
+                }
+                responseMsgDiv.style.display = 'block';
+
+            } catch (err) {
+                responseMsgDiv.textContent = 'حدث خطأ أثناء الاتصال بالخادم.';
+                responseMsgDiv.className = 'error';
+                responseMsgDiv.style.display = 'block';
+            }
+        });
+    </script>
+
 </body>
 </html>
