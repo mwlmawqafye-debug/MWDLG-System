@@ -1,9 +1,38 @@
 
+import os
+import json
+import firebase_admin
+from firebase_admin import credentials, firestore
 from flask import Flask, request, jsonify, render_template
 from engine.ui_engine import DynamicUIEngine
 from engine.workflow_engine import WorkflowEngine
-import firebase_setup # This will initialize Firebase
-from firebase_admin import firestore
+
+# --- Firebase Initialization ---
+try:
+    # Check for Render environment variable
+    creds_json_str = os.environ.get('FIREBASE_CREDENTIALS')
+    if creds_json_str:
+        print("--- Initializing Firebase from Environment Variable ---")
+        creds_dict = json.loads(creds_json_str)
+        cred = credentials.Certificate(creds_dict)
+    else:
+        # Fallback to local key file for local development
+        print("--- Initializing Firebase from local key file ---")
+        cred = credentials.Certificate('modl-mawkuf-key.json')
+    
+    firebase_admin.initialize_app(cred)
+    print("--- Firebase Connection Test SUCCEEDED ---")
+
+except Exception as e:
+    print("--- Firebase Connection Test FAILED ---")
+    # Try to provide a more specific reason
+    if 'modl-mawkuf-key.json' in str(e):
+        print("Reason: Service key file not found at 'modl-mawkuf-key.json'.")
+        print("Please upload 'modl-mawkuf-key.json' to the project root.")
+    else:
+        print(f"Reason: {e}")
+    # We will let the app continue and it will fail later,
+    # but the logs will clearly show the Firebase connection issue.
 
 # Get a reference to the Firestore database
 db = firestore.client()
@@ -27,9 +56,8 @@ def save_identity_settings():
         if not settings_data:
             return jsonify({"status": "error", "message": "Invalid data. JSON expected."}), 400
         
-        # Use a specific document for these settings (Singleton pattern)
         settings_ref = db.collection('settings').document('identity_and_appearance')
-        settings_ref.set(settings_data, merge=True) # merge=True updates fields without overwriting the whole doc
+        settings_ref.set(settings_data, merge=True)
         
         return jsonify({"status": "success", "message": "Settings saved successfully."}), 200
 
@@ -48,9 +76,8 @@ def render_doctype(doctype_name):
 @app.route('/submit/<doctype_name>/<doc_id>', methods=['POST'])
 def submit_document(doctype_name, doc_id):
     """Submits a document, saves its data, and moves it to the next workflow state."""
-    user_role = request.headers.get('X-User-Role', 'user') # Get user role from header
+    user_role = request.headers.get('X-User-Role', 'user')
     
-    # --- Firestore Data Saving ---
     try:
         form_data = request.get_json()
         if not form_data:
@@ -62,10 +89,9 @@ def submit_document(doctype_name, doc_id):
     except Exception as e:
         return jsonify({"status": "error", "message": f"Error saving data to Firestore: {str(e)}"}), 500
 
-    # --- Workflow Engine Logic ---
     workflow_engine = WorkflowEngine(doctype_name, doc_id)
     current_state = workflow_engine.get_document_state()
-    next_state = 'Submitted' # Example transition
+    next_state = 'Submitted'
 
     if workflow_engine.can_transition(user_role, current_state, next_state):
         workflow_engine.set_document_state(next_state)
