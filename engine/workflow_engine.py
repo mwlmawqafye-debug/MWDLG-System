@@ -1,11 +1,11 @@
 
-from firebase_setup import db
 
 class WorkflowEngine:
-    def __init__(self, doctype_name, doc_id):
+    def __init__(self, doctype_name, doc_id, db):
         self.doctype_name = doctype_name
         self.doc_id = doc_id
-        self.doc_ref = db.collection(self.doctype_name).document(self.doc_id)
+        self.db = db # Receive the db connection
+        self.doc_ref = self.db.collection(self.doctype_name).document(self.doc_id)
 
     def get_document_state(self):
         """Gets the current state of the document."""
@@ -21,7 +21,6 @@ class WorkflowEngine:
     def can_transition(self, user_role, current_state, next_state):
         """Checks if a user with a given role can transition the document state."""
         # This is a simplified role-based access matrix. 
-        # You can expand this with more complex logic.
         rules = {
             'Draft': {
                 'submit': ['user', 'admin'],

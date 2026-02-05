@@ -1,0 +1,7 @@
+# Ignore Firebase credentials
+modl-mawkuf-key.json
+firebase_credentials.json
+
+# Ignore Python cache
+__pycache__/
+*.pyc
