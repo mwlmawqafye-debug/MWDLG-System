@@ -1,84 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}الديوان السيادي{% endblock %}
-
-{% block header_title %}الديوان السيادي{% endblock %}
+{% block title %}لوحة القيادة{% endblock %}
 
 {% block content %}
-<style>
-    .card {
-        background-color: var(--color-pure-white);
-        border-radius: 1.5rem; /* More rounded */
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        position: relative;
-        overflow: hidden;
-        border-bottom-width: 6px;
-        border-color: var(--highlight-color);
-    }
-
-    .card:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(circle at 100% 100%, transparent 40%, var(--highlight-color) 180%);
-        opacity: 0;
-        transition: opacity 0.6s ease;
-    }
-
-    .card:hover:before {
-        opacity: 0.1;
-    }
-
-    .card:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-    }
-    
-    .card-icon-wrapper {
-        transition: transform 0.4s ease;
-    }
-
-    .card:hover .card-icon-wrapper {
-        transform: scale(1.1);
-    }
-    
-    .stat-number {
-        font-family: 'Amiri', serif;
-        transition: color 0.4s ease;
-    }
-
-    .card:hover .stat-number {
-        color: var(--highlight-color);
-    }
-</style>
-
-<div class="mb-10">
-    <h2 class="text-4xl font-bold text-[var(--color-waqf-green)] font-amiri">الديوان السيادي</h2>
-    <p class="text-gray-500 mt-2 font-cairo text-lg">نظرة معمارية على كنوز الوقف الرقمية.</p>
+<div class="mb-8">
+    <h1 class="text-4xl text-gray-800">لوحة القيادة</h1>
+    <p class="text-gray-500 mt-1">نظرة عامة على أنشطة النظام والحالة العامة للبيانات.</p>
 </div>
 
-<!-- الشبكة الديناميكية المبنية من المخطط السيادي -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-
-    {% for key, entity in sovereign_entities.items() %}
-    {# Only display entities that have a color defined (i.e., the main dashboard cards) #}
-    {% if entity.color %}
-    <a href="/manage/{{ entity.slug }}" class="card transform motion-safe:hover:scale-105" style="--highlight-color: {{ entity.color }};">
-        <div class="p-8 flex flex-col items-center text-center">
-            {# The background color of the icon wrapper is now transparent #}
-            <div class="card-icon-wrapper p-4 bg-transparent rounded-full mb-4 {{ entity.icon_class }}">
-                {{ entity.icon|safe }}
-            </div>
-            <h3 class="text-2xl font-amiri font-bold text-[var(--color-ink-black)]">{{ entity.name_plural }}</h3>
-            <p class="stat-number text-6xl font-bold text-gray-800 mt-3">...</p>
-        </div>
-    </a>
-    {% endif %}
-    {% endfor %}
-
+<div class="card">
+    <h2 class="text-2xl mb-4">مرحباً بك</h2>
+    <p class="text-text-secondary">
+        مرحباً بك في "نظام موقوف"، النظام المركزي لإدارة المخطوطات والوثائق والمكتبات الوقفية. 
+        استخدم الشريط الجانبي للتنقل بين الكيانات المختلفة وإدارة بياناتك بكفاءة.
+    </p>
 </div>
+
+{# مستقبلاً: يمكن إضافة المزيد من البطاقات هنا لعرض إحصائيات سريعة #}
+{# 
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+    <div class="card text-center">
+        <h3 class="text-4xl font-bold">1,250</h3>
+        <p class="text-text-secondary mt-1">مخطوطة</p>
+    </div>
+    <div class="card text-center">
+        <h3 class="text-4xl font-bold">3,420</h3>
+        <p class="text-text-secondary mt-1">وثيقة</p>
+    </div>
+    <div class="card text-center">
+        <h3 class="text-4xl font-bold">15</h3>
+        <p class="text-text-secondary mt-1">مكتبة وقفية</p>
+    </div>
+    <div class="card text-center">
+        <h3 class="text-4xl font-bold">8</h3>
+        <p class="text-text-secondary mt-1">باحث</p>
+    </div>
+</div>
+#}
+
 {% endblock %}

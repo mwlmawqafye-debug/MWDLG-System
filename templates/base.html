@@ -1,123 +1,159 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}نظام المخطوطات والوثائق{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js for UI interactivity -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <title>{% block title %}{% endblock %} - مَوْكُوف MWDL</title>
-
-    <style>
-        :root {
-            --color-waqf-green: #1b4d3e;
-            --color-waqf-green-dark: #123a2f;
-            --color-ink-black: #2d2d2d;
-            --color-parchment-bg: #fdfaf6;
-            --color-pure-white: #ffffff;
-            --color-ornament-gold: #d4af37;
-            --color-sky-blue: #4a90e2;
-            --color-stone-gray: #e0e0e0;
-            --color-text-sidenote: #a0aec0; /* gray-500 */
-        }
-        body { 
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--color-parchment-bg);
-        }
-        h1, h2, h3, h4, h5, h6, .font-amiri {
-            font-family: 'Amiri', serif;
-        }
-        .font-cairo {
-            font-family: 'Cairo', sans-serif;
-        }
-        /* Custom scrollbar for webkit browsers */
-        .sidebar-scroll::-webkit-scrollbar {
-            width: 5px;
-        }
-        .sidebar-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .sidebar-scroll::-webkit-scrollbar-thumb {
-            background: var(--color-ornament-gold);
-            border-radius: 10px;
-        }
-
-        [x-cloak] { display: none !important; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='sovereign_styles.css') }}">
 </head>
-<body class="text-[var(--color-ink-black)]">
-    <div class="flex h-screen bg-[var(--color-parchment-bg)]">
-        
-        <!-- القائمة الجانبية المعمارية -->
-        <aside class="w-72 bg-[var(--color-waqf-green-dark)] text-white flex flex-col flex-shrink-0 shadow-2xl">
-            <!-- هوية النظام -->
-            <div class="p-6 text-center border-b border-white/10">
-                <h1 class="text-3xl font-amiri font-bold text-white tracking-wider">مَوْكُوف</h1>
-                <p class="text-sm text-[var(--color-ornament-gold)] opacity-80 mt-1">MWDL</p>
+<body>
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-72 p-6 sidebar">
+            <div class="flex items-center gap-4 mb-8">
+                 <svg class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1012 10.125A2.625 2.625 0 0012 4.875z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 10.125v1.875m-3.75-3.75H12a3.75 3.75 0 013.75 3.75v.375m-7.5 0V15a2.25 2.25 0 002.25 2.25H15M12 10.125c-1.354 0-2.599-.432-3.642-1.158a11.962 11.962 0 01-5.69-5.69A.656.656 0 012.25 2.25h19.5c.224 0 .424.123.541.317-.003.004-.006.007-.008.01a11.962 11.962 0 01-5.69 5.69c-1.043.726-2.288 1.158-3.642 1.158z" /></svg>
+                <h1 class="text-2xl font-bold text-white font-amiri">نظام موقوف</h1>
             </div>
-
-            <!-- قائمة التنقل الديناميكية -->
-            <nav class="flex-grow p-4 sidebar-scroll overflow-y-auto">
-                <ul class="space-y-1">
-                    <li>
-                        <a href="/" class="flex items-center p-3 rounded-lg text-lg hover:bg-white/10 transition-colors duration-200">
-                            <svg class="w-6 h-6 text-[var(--color-ornament-gold)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25a2.25 2.25 0 01-2.25-2.25v-2.25z" /></svg>
-                            <span class="mr-4 font-semibold">الديوان السيادي</span>
-                        </a>
-                    </li>
-                </ul>
-
-                {% for category, groups in sidebar_structure.items() %}
-                <div class="mt-4">
-                    <h3 class="px-3 pt-4 pb-2 text-xs font-semibold text-[var(--color-text-sidenote)] uppercase tracking-wider">{{ category }}</h3>
-                    <ul class="space-y-1">
+            <nav>
+                <ul class="space-y-2">
+                    <li><a href="/" class="sidebar-link {% if request.path == '/' %}active{% endif %}"><span>لوحة القيادة</span></a></li>
+                    <li><a href="/identity-manager" class="sidebar-link {% if request.path == '/identity-manager' %}active{% endif %}"><span>مدير الهوية والمظهر</span></a></li>
+                    <hr class="my-4 border-gray-700">
+                    {% for category, groups in sidebar_structure.items() %}
+                        <h3 class="text-gray-400 text-sm font-bold mt-4 mb-2 px-4">{{ category }}</h3>
                         {% for group, entities in groups.items() %}
-                        <!-- يمكن إضافة منطق للمجموعات القابلة للطي هنا لاحقًا -->
-                        <h4 class="px-3 pt-2 pb-1 text-sm font-semibold text-gray-300">{{ group }}</h4>
+                             <h4 class="text-gray-500 text-xs ml-4 mb-1">{{ group }}</h4>
                             {% for entity in entities %}
-                            <li>
-                                <a href="/manage/{{ entity.slug }}" class="flex items-center p-3 pl-6 pr-3 rounded-lg text-base hover:bg-white/10 transition-colors duration-200">
-                                    <div class="w-6 h-6 text-gray-400">{{ entity.icon|safe }}</div>
-                                    <span class="mr-3">{{ entity.name_plural }}</span>
-                                </a>
-                            </li>
+                                <li><a href="/manage/{{ entity.slug }}" class="sidebar-link {% if entity.slug in request.path %}active{% endif %}">
+                                    <span class="w-6 h-6">{{ entity.icon|safe }}</span>
+                                    <span>{{ entity.name_plural }}</span>
+                                </a></li>
                             {% endfor %}
                         {% endfor %}
-                    </ul>
-                </div>
-                {% endfor %}
+                    {% endfor %}
+                </ul>
             </nav>
-
-            <!-- تذييل القائمة الجانبية -->
-            <div class="p-4 border-t border-white/10 text-center">
-                 <p class="text-xs text-[var(--color-text-sidenote)]">نظام المخطوطات والوثائق والمكتبات الوقفية [مَوْكُوف] [MWDL]</p>
-                 <p class="text-xs text-[var(--color-text-sidenote)]/80 mt-1">الإصدار 1.2.0</p>
-            </div>
         </aside>
 
-        <!-- المحتوى الرئيسي والشريط العلوي -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- الشريط العلوي -->
-            <header class="bg-white/60 backdrop-blur-sm shadow-md z-10">
-                <div class="h-20 flex items-center justify-between px-8">
-                    <div class="text-lg font-semibold text-gray-400">
-                        {% block header_title %}{% endblock %}
-                    </div>
-                    <div>
-                        <!-- User Profile placeholder -->
-                    </div>
+        <!-- Main Content -->
+        <main class="flex-1 p-10 overflow-y-auto">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirmation-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                    <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
                 </div>
-            </header>
-            
-            <!-- مساحة المحتوى القابلة للتمرير -->
-            <main class="flex-1 overflow-y-auto p-8">
-                {% block content %}{% endblock %}
-            </main>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2" id="delete-modal-title">تأكيد الحذف</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500" id="delete-modal-body">هل أنت متأكد من رغبتك في حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.</p>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <form id="delete-form" method="POST" action="">
+                        <button id="confirm-delete-btn" type="submit" class="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                            نعم، قم بالحذف
+                        </button>
+                    </form>
+                    <button id="cancel-delete-btn" class="mt-3 px-4 py-2 bg-gray-200 text-gray-800 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                        إلغاء
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('delete-confirmation-modal');
+            const deleteForm = document.getElementById('delete-form');
+            const cancelBtn = document.getElementById('cancel-delete-btn');
+            const modalTitle = document.getElementById('delete-modal-title');
+            let recordIdToDelete = null;
+            let entitySlugToDelete = null;
+
+            // Function to open the modal
+            const openModal = (e) => {
+                const button = e.target.closest('.delete-btn');
+                if (button) {
+                    e.preventDefault();
+                    recordIdToDelete = button.dataset.id;
+                    entitySlugToDelete = button.dataset.entitySlug;
+                    const entityName = button.dataset.entityName;
+                    
+                    // Update modal content
+                    modalTitle.textContent = `تأكيد حذف ${entityName}`;
+                    
+                    // Set the form action
+                    deleteForm.action = `/delete/${entitySlugToDelete}/${recordIdToDelete}`;
+                    
+                    modal.classList.remove('hidden');
+                }
+            };
+
+            // Function to close the modal
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                recordIdToDelete = null;
+                entitySlugToDelete = null;
+                deleteForm.action = '';
+            };
+
+            // Event listener for all delete buttons
+            document.body.addEventListener('click', openModal);
+
+            // Event listener for the cancel button
+            cancelBtn.addEventListener('click', closeModal);
+            
+            // Close modal if clicking outside of it
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Handle form submission with Fetch API for a smoother experience
+            deleteForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                fetch(this.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest' // Often good practice for AJAX requests
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // On success, close the modal and reload the page to show the change
+                        closeModal();
+                        location.reload();
+                    } else {
+                        // Handle server-side errors
+                        console.error('Error deleting record:', data.error);
+                        alert('حدث خطأ أثناء محاولة الحذف.');
+                        closeModal();
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert('حدث خطأ في الشبكة.');
+                    closeModal();
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>

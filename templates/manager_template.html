@@ -2,113 +2,74 @@
 
 {% block title %}{{ entity.name_plural }}{% endblock %}
 
-{% block header_title %}{{ entity.name_plural }}{% endblock %}
-
 {% block content %}
-<div class="max-w-7xl mx-auto" x-data="{ isPanelOpen: false }">
-
-    <!-- Page Header -->
-    <div class="flex justify-between items-center mb-8">
-        <div>
-            <h2 class="text-4xl font-bold text-[var(--color-waqf-green)] font-amiri">{{ entity.name_plural }}</h2>
-            <p class="text-gray-500 mt-2 font-cairo text-lg">إدارة وعرض {{ entity.name_plural }}.</p>
-        </div>
-        <button @click="isPanelOpen = true" class="bg-[var(--color-waqf-green)] text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-[var(--color-waqf-green-dark)] transition-transform transform hover:scale-105 duration-300 ease-in-out flex items-center">
-             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
-            <span>{{ entity.add_button_label | default('إضافة جديد') }}</span>
-        </button>
+<div class="flex justify-between items-center mb-8">
+    <div>
+        <h1 class="text-4xl text-gray-800">{{ entity.name_plural }}</h1>
+        <p class="text-gray-500 mt-1">إدارة {{ entity.name_plural }} من هذا المركز الموحد.</p>
     </div>
+    <a href="{{ url_for('add_entity', entity_slug=entity.slug) }}" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+        </svg>
+        <span>{{ entity.add_button_label }}</span>
+    </a>
+</div>
 
-    <!-- Slide-over Panel for Adding/Editing -->
-    <div x-show="isPanelOpen" x-cloak 
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="transform translate-x-full"
-         x-transition:enter-end="transform translate-x-0"
-         x-transition:leave="transition ease-in duration-300"
-         x-transition:leave-start="transform translate-x-0"
-         x-transition:leave-end="transform translate-x-full"
-         class="fixed inset-y-0 right-0 w-full max-w-2xl bg-white shadow-2xl z-50 flex flex-col">
+<div class="card overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-sm align-middle bg-white">
+            
+            <!-- Table Header -->
+            <thead class="bg-gray-50">
+                <tr>
+                    {% for field_key, field_props in entity.fields.items() %}
+                        {% if field_props.get('show_in_table', True) %}
+                            <th class="p-4 text-right font-semibold text-gray-600">{{ field_props.label }}</th>
+                        {% endif %}
+                    {% endfor %}
+                    <th class="p-4 text-left font-semibold text-gray-600">إجراءات</th>
+                </tr>
+            </thead>
 
-        <!-- Panel Header -->
-        <div class="flex items-center justify-between p-6 bg-gray-50 border-b">
-            <h2 class="text-2xl font-bold text-[var(--color-waqf-green)] font-amiri">{{ entity.add_button_label }}</h2>
-            <button @click="isPanelOpen = false" class="text-gray-400 hover:text-gray-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-        </div>
-
-        <!-- Dynamic Form -->
-        <form class="flex-grow p-8 space-y-6 overflow-y-auto">
-            {% for field_name, field_props in entity.fields.items() %}
-            <div>
-                <label for="{{ field_name }}" class="block text-lg font-cairo font-semibold text-gray-700 mb-2">
-                    {{ field_props.label }}
-                    {% if field_props.required %}<span class="text-red-500 mr-1">*</span>{% endif %}
-                </label>
-                
-                {% if field_props.type == 'textarea' %}
-                    <textarea id="{{ field_name }}" name="{{ field_name }}" 
-                              rows="{{ field_props.rows | default(5) }}" 
-                              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-waqf-green)] focus:border-transparent transition-colors" 
-                              {% if field_props.required %}required{% endif %}></textarea>
-                {% elif field_props.type == 'select' %}
-                     <select id="{{ field_name }}" name="{{ field_name }}" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-waqf-green)] focus:border-transparent transition-colors" {% if field_props.required %}required{% endif %}>
-                        <option value="">اختر...</option>
-                        {% for option in field_props.options %}
-                        <option value="{{ option }}">{{ option }}</option>
-                        {% endfor %}
-                    </select>
+            <!-- Table Body -->
+            <tbody>
+                {% if table_data %}
+                    {% for row in table_data %}
+                        <tr class="border-t border-gray-200 hover:bg-gray-50">
+                            {% for field_key, field_props in entity.fields.items() %}
+                                {% if field_props.get('show_in_table', True) %}
+                                    <td class="p-4 text-gray-700">{{ row.get(field_key, '') }}</td>
+                                {% endif %}
+                            {% endfor %}
+                            <td class="p-4 text-left">
+                                <div class="flex gap-2">
+                                    <a href="{{ url_for('edit_entity', entity_slug=entity.slug, record_id=row.id) }}" class="text-blue-600 hover:text-blue-800 font-medium">تعديل</a>
+                                    <button 
+                                        class="text-red-600 hover:text-red-800 font-medium delete-btn"
+                                        data-id="{{ row.id }}"
+                                        data-entity-slug="{{ entity.slug }}"
+                                        data-entity-name="{{ entity.name_singular }}"
+                                    >
+                                        حذف
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
                 {% else %}
-                    <input type="{{ field_props.type }}" id="{{ field_name }}" name="{{ field_name }}" 
-                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-waqf-green)] focus:border-transparent transition-colors" 
-                           {% if field_props.required %}required{% endif %}>
-                {% endif %}
-            </div>
-            {% endfor %}
-        </form>
-
-        <!-- Panel Footer -->
-        <div class="p-6 bg-gray-50 border-t flex justify-end space-x-4 space-x-reverse">
-            <button @click="isPanelOpen = false" type="button" class="py-3 px-6 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
-                إلغاء
-            </button>
-            <button type="submit" form="dynamic-form-id" class="py-3 px-8 bg-[var(--color-waqf-green)] text-white font-bold rounded-lg shadow-lg hover:bg-[var(--color-waqf-green-dark)] transition-colors">
-                حفظ
-            </button>
-        </div>
-    </div>
-    
-    <!-- Overlay -->
-    <div x-show="isPanelOpen" x-cloak @click="isPanelOpen = false" class="fixed inset-0 bg-black/40 z-40"></div>
-
-    <!-- Data Table -->
-    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-right">
-                <thead class="bg-gray-50 border-b-2 border-gray-200">
-                    <tr>
-                        {% for field_name, field_props in entity.fields.items() %}
-                            <th class="p-4 text-sm font-semibold text-gray-600 uppercase tracking-wider">{{ field_props.label }}</th>
-                        {% endfor %}
-                        <th class="p-4 text-sm font-semibold text-gray-600 uppercase tracking-wider">أجراءات</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    <!-- Data rows will be dynamically inserted here from the database -->
-                    <!-- Example of an empty state -->
-                    <tr>
-                        <td colspan="{{ entity.fields|length + 1 }}" class="p-8 text-center text-gray-500">
+                    <tr class="border-t border-gray-200">
+                        <td colspan="{{ entity.fields|length + 1 }}" class="text-center p-8 text-gray-500">
                             <div class="flex flex-col items-center">
-                                <svg class="w-16 h-16 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75c0-.231-.035-.454-.1-.664M6.75 7.5h1.5v.008h-1.5V7.5z" /></svg>
-                                <p class="mt-4 text-lg">لا توجد بيانات لعرضها بعد.</p>
-                                <p class="text-sm">ابدأ بإضافة أول {{ entity.name_singular }}.</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                                <h3 class="text-lg font-semibold">لا توجد بيانات لعرضها</h3>
+                                <p>لم يتم العثور على أي سجلات لـ "{{ entity.name_plural }}". ابدأ بإضافة سجل جديد.</p>
                             </div>
                         </td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
+                {% endif %}
+            </tbody>
+        </table>
     </div>
-
 </div>
 {% endblock %}
