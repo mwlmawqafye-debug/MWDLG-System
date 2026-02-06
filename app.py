@@ -1,48 +1,38 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import sovereign_schema
-import database # Import the new database module
+import database
 import os
 
 app = Flask(__name__)
 
 # --- Sovereign Schema & DB Integration ---
 SOVEREIGN_ENTITIES = sovereign_schema.SOVEREIGN_ENTITIES
-DATABASE_INITIALIZED = False
 
-def initialize_database():
-    """Initializes the database, creates tables, and seeds it with initial data if needed."""
-    global DATABASE_INITIALIZED
-    if not DATABASE_INITIALIZED:
-        # Create tables based on the schema
-        database.create_tables()
-        
-        # --- One-time data seeding ---
-        # Check if the database is empty before seeding
-        if not database.get_all_for_entity("manuscripts"):
-            print("Database is empty. Seeding initial data...")
-            conn = database.get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute("INSERT INTO manuscripts (title, author, era) VALUES (?, ?, ?)", 
-                           ("المخطوطة الأولى", "المؤلف الأول", "العصر العباسي"))
-            cursor.execute("INSERT INTO manuscripts (title, author, era) VALUES (?, ?, ?)", 
-                           ("المخطوطة الثانية", "المؤلف الثاني", "العصر الأموي"))
-            cursor.execute("INSERT INTO documents (title, date, type) VALUES (?, ?, ?)", 
-                           ("وثيقة الوقف", "2023-12-12", "صك"))
-            conn.commit()
-            conn.close()
-            print("Initial data seeded.")
-
-        DATABASE_INITIALIZED = True
+# Create database tables unconditionally when the app starts.
+# This is the most reliable way to ensure tables exist before any requests are handled,
+# especially in production environments like Railway or Render.
+database.create_tables()
 
 # --- Routes ---
-@app.before_request
-def before_first_request_func():
-    initialize_database()
 
 @app.route("/")
 def index():
     sidebar_structure = sovereign_schema.get_sidebar_structure()
-    return render_template("index.html", sidebar_structure=sidebar_structure)
+    # For demonstration, let's fetch some stats for the dashboard
+    try:
+        manuscripts_count = len(database.get_all_for_entity("manuscripts"))
+        documents_count = len(database.get_all_for_entity("documents"))
+    except Exception as e:
+        # This might happen if tables were just created and are empty
+        print(f"Could not fetch counts, probably tables are empty. Error: {e}")
+        manuscripts_count = 0
+        documents_count = 0
+        
+    stats = {
+        "manuscripts": manuscripts_count,
+        "documents": documents_count
+    }
+    return render_template("index.html", sidebar_structure=sidebar_structure, stats=stats)
 
 @app.route("/manage/<entity_slug>")
 def manage_entity(entity_slug):
@@ -50,9 +40,7 @@ def manage_entity(entity_slug):
     if not entity:
         return "Entity not found", 404
 
-    # Fetch data from the real database
     table_data = database.get_all_for_entity(entity_slug)
-
     sidebar_structure = sovereign_schema.get_sidebar_structure()
     return render_template(
         "manager_template.html", 
@@ -91,7 +79,6 @@ def edit_entity(entity_slug, record_id):
         database.update_entity(entity_slug, record_id, form_data)
         return redirect(url_for('manage_entity', entity_slug=entity_slug))
 
-    # For a GET request, fetch existing data and show the form
     record_data = database.get_one_for_entity(entity_slug, record_id)
     if not record_data:
         return "Record not found", 404
@@ -120,4 +107,13 @@ def identity_manager():
     return render_template("identity_and_appearance_manager.html", sidebar_structure=sidebar_structure)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # This block runs only in local development
+    # Let's seed the database if it's empty
+    if not database.get_all_for_entity("manuscripts"):
+        print("Database is empty. Seeding initial data for local development...")
+        database.insert_entity("manuscripts", {"title": "المخطوطة الأولى", "author": "المؤلف الأول", "era": "العصر العباسي"})
+        database.insert_entity("manuscripts", {"title": "المخطوطة الثانية", "author": "المؤلف الثاني", "era": "العصر الأموي"})
+        database.insert_entity("documents", {"title": "وثيقة الوقف", "date": "2023-12-12", "type": "صك"})
+        print("Initial data seeded.")
+
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), debug=True)
