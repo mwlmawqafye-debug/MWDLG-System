@@ -1,16 +1,18 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+from whitenoise import WhiteNoise # Import WhiteNoise
 import sovereign_schema
 import database
 import os
 
 app = Flask(__name__)
+# Wrap the app with WhiteNoise to serve static files in production
+# It will automatically look for a 'static' folder and serve its contents
+app.wsgi_app = WhiteNoise(app.wsgi_app, root="static/")
 
 # --- Sovereign Schema & DB Integration ---
 SOVEREIGN_ENTITIES = sovereign_schema.SOVEREIGN_ENTITIES
 
 # Create database tables unconditionally when the app starts.
-# This is the most reliable way to ensure tables exist before any requests are handled,
-# especially in production environments like Railway or Render.
 database.create_tables()
 
 # --- Routes ---
@@ -18,12 +20,10 @@ database.create_tables()
 @app.route("/")
 def index():
     sidebar_structure = sovereign_schema.get_sidebar_structure()
-    # For demonstration, let's fetch some stats for the dashboard
     try:
         manuscripts_count = len(database.get_all_for_entity("manuscripts"))
         documents_count = len(database.get_all_for_entity("documents"))
     except Exception as e:
-        # This might happen if tables were just created and are empty
         print(f"Could not fetch counts, probably tables are empty. Error: {e}")
         manuscripts_count = 0
         documents_count = 0
@@ -108,7 +108,6 @@ def identity_manager():
 
 if __name__ == "__main__":
     # This block runs only in local development
-    # Let's seed the database if it's empty
     if not database.get_all_for_entity("manuscripts"):
         print("Database is empty. Seeding initial data for local development...")
         database.insert_entity("manuscripts", {"title": "المخطوطة الأولى", "author": "المؤلف الأول", "era": "العصر العباسي"})
