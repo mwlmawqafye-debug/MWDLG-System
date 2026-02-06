@@ -1,7 +1,12 @@
 import sqlite3
 import sovereign_schema
+import os
 
-DATABASE_FILE = "sovereign.db"
+# Use a writable directory for the database file in production environments
+if os.environ.get('RAILWAY_ENVIRONMENT') or os.environ.get('RENDER'):
+    DATABASE_FILE = "/tmp/sovereign.db"
+else:
+    DATABASE_FILE = "sovereign.db"
 
 def get_db_connection():
     """Creates a connection to the SQLite database."""
