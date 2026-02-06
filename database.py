@@ -2,14 +2,12 @@ import sqlite3
 import sovereign_schema
 import os
 
-# Use a writable directory for the database file in production environments
-if os.environ.get('RAILWAY_ENVIRONMENT') or os.environ.get('RENDER'):
-    DATABASE_FILE = "/tmp/sovereign.db"
-else:
-    DATABASE_FILE = "sovereign.db"
+# Force using /tmp for the database file in all environments for deployment debugging.
+DATABASE_FILE = "/tmp/sovereign.db"
 
 def get_db_connection():
     """Creates a connection to the SQLite database."""
+    # The database file will be created in the /tmp directory, which is writable in Render/Railway.
     conn = sqlite3.connect(DATABASE_FILE)
     conn.row_factory = sqlite3.Row
     return conn
