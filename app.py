@@ -8,7 +8,7 @@ from engine.ui_engine import DynamicUIEngine
 from engine.workflow_engine import WorkflowEngine
 
 # --- Sovereign Schema Import ---
-from sovereign_schema import SOVEREIGN_ENTITIES
+from sovereign_schema import SOVEREIGN_ENTITIES, get_sidebar_structure
 
 # --- Firebase Initialization ---
 # This block handles Firebase connection for both Render (using env vars)
@@ -43,22 +43,38 @@ except Exception as e:
 
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/static')
 
-# Middleware to check DB connection
+# --- Context Processor ---
+# This makes the sidebar structure available to all templates automatically.
+@app.context_processor
+def inject_sidebar_structure():
+    return dict(sidebar_structure=get_sidebar_structure())
+
+# --- Middleware ---
 @app.before_request
 def before_request_func():
     if db is None and request.path not in ['/', '/identity_and_appearance']:
         return jsonify({"status": "error", "message": "Database connection failed. Check server logs."}), 503
 
+# --- Core Routes ---
 @app.route('/')
 def index():
-    # Renders the new Enterprise Dashboard, now driven by the Sovereign Schema
+    # The sovereign_entities are passed for the main dashboard cards.
     return render_template('index.html', sovereign_entities=SOVEREIGN_ENTITIES)
 
 @app.route('/identity_and_appearance')
 def identity_and_appearance_manager():
-    # This page now inherits the new design via base.html
     return render_template('identity_and_appearance_manager.html')
 
+# --- Generic Manager Route (The UI Factory) ---
+@app.route('/manage/<entity_slug>')
+def manager_view(entity_slug):
+    if entity_slug not in SOVEREIGN_ENTITIES:
+        return "Entity not found", 404
+    entity = SOVEREIGN_ENTITIES[entity_slug]
+    # The manager_template will be created in the next step.
+    return render_template('manager_template.html', entity=entity)
+
+# --- API Routes ---
 @app.route('/api/identity_settings', methods=['POST'])
 def save_identity_settings():
     try:
@@ -74,6 +90,8 @@ def save_identity_settings():
     except Exception as e:
         return jsonify({"status": "error", "message": f"خطأ في الحفظ: {str(e)}"}), 500
 
+
+# --- Deprecated Engine Routes (to be phased out) ---
 @app.route('/render/<doctype_name>')
 def render_doctype(doctype_name):
     try:

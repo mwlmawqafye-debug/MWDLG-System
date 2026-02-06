@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{{ entity.name_plural }}{% endblock %}
+
+{% block header_title %}{{ entity.name_plural }}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+
+    <!-- Page Header -->
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h2 class="text-4xl font-bold text-[var(--color-waqf-green)] font-amiri">{{ entity.name_plural }}</h2>
+            <p class="text-gray-500 mt-2 font-cairo text-lg">إدارة وعرض {{ entity.name_plural }}.</p>
+        </div>
+        <button class="bg-[var(--color-waqf-green)] text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-[var(--color-waqf-green-dark)] transition-transform transform hover:scale-105 duration-300 ease-in-out">
+            {{ entity.add_button_label | default('إضافة جديد') }}
+        </button>
+    </div>
+
+    <!-- Data Table -->
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-right">
+                <thead class="bg-gray-50 border-b-2 border-gray-200">
+                    <tr>
+                        {% for field_name, field_props in entity.fields.items() %}
+                            <th class="p-4 text-sm font-semibold text-gray-600 uppercase tracking-wider">{{ field_props.label }}</th>
+                        {% endfor %}
+                        <th class="p-4 text-sm font-semibold text-gray-600 uppercase tracking-wider">أجراءات</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <!-- Data rows will be dynamically inserted here from the database -->
+                    <!-- Example of an empty state -->
+                    <tr>
+                        <td colspan="{{ entity.fields|length + 1 }}" class="p-8 text-center text-gray-500">
+                            <div class="flex flex-col items-center">
+                                <svg class="w-16 h-16 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75c0-.231-.035-.454-.1-.664M6.75 7.5h1.5v.008h-1.5V7.5z" /></svg>
+                                <p class="mt-4 text-lg">لا توجد بيانات لعرضها بعد.</p>
+                                <p class="text-sm">ابدأ بإضافة أول {{ entity.name_singular }}.</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
