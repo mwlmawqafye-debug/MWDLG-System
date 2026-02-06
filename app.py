@@ -68,9 +68,9 @@ def identity_and_appearance_manager():
 # --- Generic Manager Route (The UI Factory) ---
 @app.route('/manage/<entity_slug>')
 def manager_view(entity_slug):
-    if entity_slug not in SOVEREIGN_ENTITIES:
+    entity = SOVEREIGN_ENTITIES.get(entity_slug)
+    if not entity:
         return "Entity not found", 404
-    entity = SOVEREIGN_ENTITIES[entity_slug]
     # The manager_template will be created in the next step.
     return render_template('manager_template.html', entity=entity)
 
