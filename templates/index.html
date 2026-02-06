@@ -65,18 +65,19 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
     {% for key, entity in sovereign_entities.items() %}
-    {% set color = entity.icon.split('text-')[1].split(']')[0] %}
-    {% set bg_color_class = 'bg-' + color.split('-')[0] + '-50' %}
-
-    <a href="/{{ entity.slug }}" class="card transform motion-safe:hover:scale-105" style="--highlight-color: {{ color.replace('[', '').replace(']', '') }};">
+    {# Only display entities that have a color defined (i.e., the main dashboard cards) #}
+    {% if entity.color %}
+    <a href="/manage/{{ entity.slug }}" class="card transform motion-safe:hover:scale-105" style="--highlight-color: {{ entity.color }};">
         <div class="p-8 flex flex-col items-center text-center">
-            <div class="card-icon-wrapper p-4 {{ bg_color_class }} rounded-full mb-4">
+            {# The background color of the icon wrapper is now transparent #}
+            <div class="card-icon-wrapper p-4 bg-transparent rounded-full mb-4 {{ entity.icon_class }}">
                 {{ entity.icon|safe }}
             </div>
             <h3 class="text-2xl font-amiri font-bold text-[var(--color-ink-black)]">{{ entity.name_plural }}</h3>
             <p class="stat-number text-6xl font-bold text-gray-800 mt-3">...</p>
         </div>
     </a>
+    {% endif %}
     {% endfor %}
 
 </div>
