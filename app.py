@@ -11,6 +11,7 @@ from engine.workflow_engine import WorkflowEngine
 # This block handles Firebase connection for both Render (using env vars)
 # and local development (using a key file).
 try:
+    cred = None
     creds_json_str = os.environ.get('FIREBASE_CREDENTIALS')
     if creds_json_str:
         print("--- Initializing Firebase from Environment Variable ---")
@@ -20,9 +21,12 @@ try:
         print("--- Initializing Firebase from local key file ---")
         cred = credentials.Certificate('modl-mawkuf-key.json')
     
+    # Corrected: Initialize app outside the if/else block
     firebase_admin.initialize_app(cred)
+    
     print("--- Firebase Connection Test SUCCEEDED ---")
     db = firestore.client()
+
 except Exception as e:
     print("--- Firebase Connection Test FAILED ---")
     if 'modl-mawkuf-key.json' in str(e):
@@ -33,22 +37,23 @@ except Exception as e:
         print(f"Reason: {e}")
     db = None # Set db to None if initialization fails
 
-# Force new build v2
+
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/static')
 
 # Middleware to check DB connection
 @app.before_request
 def before_request_func():
-    if db is None and request.path != '/': # Allow access to home page even if DB fails
+    if db is None and request.path not in ['/', '/identity_and_appearance']:
         return jsonify({"status": "error", "message": "Database connection failed. Check server logs."}), 503
 
 @app.route('/')
 def index():
-    # Renders the main landing page
+    # Renders the new Enterprise Dashboard
     return render_template('index.html')
 
 @app.route('/identity_and_appearance')
 def identity_and_appearance_manager():
+    # This page now inherits the new design via base.html
     return render_template('identity_and_appearance_manager.html')
 
 @app.route('/api/identity_settings', methods=['POST'])
@@ -61,15 +66,14 @@ def save_identity_settings():
         settings_ref = db.collection('settings').document('identity_and_appearance')
         settings_ref.set(settings_data, merge=True)
         
-        return jsonify({"status": "success", "message": "Settings saved successfully."}), 200
+        return jsonify({"status": "success", "message": "تم حفظ الإعدادات بنجاح."}), 200
 
     except Exception as e:
-        return jsonify({"status": "error", "message": f"Error saving settings to Firestore: {str(e)}"}), 500
+        return jsonify({"status": "error", "message": f"خطأ في الحفظ: {str(e)}"}), 500
 
 @app.route('/render/<doctype_name>')
 def render_doctype(doctype_name):
     try:
-        # Pass the db connection to the engine
         ui_engine = DynamicUIEngine(doctype_name, db)
         return ui_engine.render_form()
     except Exception as e:
@@ -90,7 +94,6 @@ def submit_document(doctype_name, doc_id):
     except Exception as e:
         return jsonify({"status": "error", "message": f"Error saving data to Firestore: {str(e)}"}), 500
 
-    # Pass the db connection to the engine
     workflow_engine = WorkflowEngine(doctype_name, doc_id, db)
     current_state = workflow_engine.get_document_state()
     next_state = 'Submitted' # Example transition

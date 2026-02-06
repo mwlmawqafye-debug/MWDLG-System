@@ -1,136 +1,33 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - محرك الأنظمة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-bg: #f4f7f6;
-            --sidebar-bg: #ffffff;
-            --card-bg: #ffffff;
-            --primary-text: #333333;
-            --heading-text: #1b4d3e;
-            --accent-color: #1b4d3e;
-            --border-color: #e9ecef;
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--primary-bg);
-            color: var(--primary-text);
-            margin: 0;
-            display: flex;
-        }
-        .main-content {
-            flex-grow: 1;
-            padding: 40px;
-        }
-        header h1 {
-            color: var(--heading-text);
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        header p {
-            color: #6c757d;
-            font-size: 1.2em;
-            margin-bottom: 40px;
-        }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-        }
-        .card-body {
-            padding: 25px;
-        }
-        .card-title {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: var(--heading-text);
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-        .card-text {
-            font-size: 1em;
-            color: #6c757d;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-        .card-footer {
-            padding: 20px 25px;
-            background-color: #fcfcfc;
-            border-top: 1px solid var(--border-color);
-        }
-        .card-footer a {
-            text-decoration: none;
-            color: var(--accent-color);
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        .card-footer a:hover {
-            color: #0d2e20;
-        }
-        .card-footer a::after {
-            content: ' ←';
-            transition: margin-right 0.3s;
-        }
-        .card-footer a:hover::after {
-            margin-right: -5px;
-        }
-    </style>
-</head>
-<body>
-    <main class="main-content">
-        <header>
-            <h1>لوحة تحكم النظام</h1>
-            <p>مرحباً بك في المركز الإداري لمحرك الأنظمة (MWDLG). ابدأ من هنا.</p>
-        </header>
-        <div class="dashboard-grid">
-            <!-- Card 1: Identity and Appearance -->
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">الهوية والمظهر</h2>
-                    <p class="card-text">
-                        إدارة الإعدادات الأساسية لهوية النظام، بما في ذلك اسم التطبيق، الشعار، والألوان الرئيسية للواجهة.
-                    </p>
-                </div>
-                <div class="card-footer">
-                    <a href="/identity_and_appearance">الانتقال إلى الإعدادات</a>
-                </div>
-            </div>
+{% extends "base.html" %}
 
-            <!-- Add more cards for other modules here in the future -->
-            <!-- 
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">إدارة المستخدمين</h2>
-                    <p class="card-text">
-                        إضافة، تعديل، وحذف المستخدمين. إدارة الصلاحيات والأدوار.
-                    </p>
-                </div>
-                <div class="card-footer">
-                    <a href="#">الانتقال إلى الإدارة</a>
-                </div>
-            </div>
-            -->
-        </div>
-    </main>
-</body>
-</html>
+{% block title %}لوحة القيادة{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h2 class="text-4xl font-bold text-[var(--color-waqf-green)] font-amiri">لوحة القيادة</h2>
+    <p class="text-gray-600 mt-2 font-cairo">نظرة عامة على أصول النظام الرقمية الحالية.</p>
+</div>
+
+<!-- شبكة البطاقات الإحصائية -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- بطاقة عدد المخطوطات -->
+    <div class="bg-[var(--color-pure-white)] rounded-xl shadow-md p-6 border-r-4 border-[var(--color-waqf-green)] transition hover:shadow-lg hover:-translate-y-1">
+        <h3 class="text-lg font-cairo text-gray-500">عدد المخطوطات</h3>
+        <p class="text-5xl font-bold text-[var(--color-ink-black)] mt-2">١,٢٥٠</p>
+    </div>
+
+    <!-- بطاقة الوثائق الوقفية -->
+    <div class="bg-[var(--color-pure-white)] rounded-xl shadow-md p-6 border-r-4 border-[var(--color-ornament-gold)] transition hover:shadow-lg hover:-translate-y-1">
+        <h3 class="text-lg font-cairo text-gray-500">الوثائق الوقفية</h3>
+        <p class="text-5xl font-bold text-[var(--color-ink-black)] mt-2">٣١٢</p>
+    </div>
+
+    <!-- بطاقة المكتبات المسجلة -->
+    <div class="bg-[var(--color-pure-white)] rounded-xl shadow-md p-6 border-r-4 border-[var(--color-sky-blue)] transition hover:shadow-lg hover:-translate-y-1">
+        <h3 class="text-lg font-cairo text-gray-500">المكتبات المسجلة</h3>
+        <p class="text-5xl font-bold text-[var(--color-ink-black)] mt-2">٤٢</p>
+    </div>
+
+</div>
+{% endblock %}

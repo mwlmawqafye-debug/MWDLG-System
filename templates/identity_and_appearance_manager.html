@@ -1,231 +1,84 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة الهوية والمظهر - محرك الأنظمة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-bg: #f4f7f6;
-            --content-bg: #ffffff;
-            --primary-text: #333333;
-            --heading-text: #1b4d3e;
-            --accent-color: #1b4d3e;
-            --border-color: #dee2e6;
-            --input-bg: #f8f9fa;
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--primary-bg);
-            color: var(--primary-text);
-            margin: 0;
-            padding: 40px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: var(--content-bg);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-        }
-        header {
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        header h1 {
-            color: var(--heading-text);
-            font-size: 2.2em;
-            margin: 0;
-        }
-        header p {
-            color: #6c757d;
-            font-size: 1.1em;
-            margin-top: 5px;
-        }
-        .form-group {
-            margin-bottom: 25px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 1.1em;
-        }
-        .form-group input[type="text"], .form-group input[type="color"] {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--input-bg);
-            font-family: 'Cairo', sans-serif;
-            font-size: 1em;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
-        }
-        .color-input-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .color-input-wrapper input[type="color"] {
-            width: 50px;
-            height: 50px;
-            padding: 5px;
-            flex-shrink: 0;
-        }
-        .form-actions {
-            margin-top: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 700;
-            font-family: 'Cairo', sans-serif;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .btn-primary {
-            background-color: var(--accent-color);
-            color: #ffffff;
-        }
-        .btn-primary:hover {
-            background-color: #0d2e20;
-            transform: translateY(-2px);
-        }
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        #response-message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-            font-weight: 600;
-        }
-        #response-message.success {
-            background-color: #e6f9f0;
-            color: #1b4d3e;
-        }
-        #response-message.error {
-            background-color: #fbeae5;
-            color: #d9534f;
-        }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <div class="container">
-        <header>
-            <h1>إدارة الهوية والمظهر</h1>
-            <p>تحكم في المظهر العام للنظام من هذه الواجهة.</p>
-        </header>
+{% block title %}إدارة الهوية والمظهر{% endblock %}
 
-        <form id="identity-form">
+{% block content %}
+
+<div class="mb-8">
+    <h2 class="text-4xl font-bold text-[var(--color-waqf-green)] font-amiri">إدارة الهوية والمظهر</h2>
+    <p class="text-gray-600 mt-2 font-cairo">تحكم في المظهر العام للنظام من هذه الواجهة.</p>
+</div>
+
+<div class="bg-white p-8 rounded-xl shadow-md">
+    <form id="identity-form">
+        <div class="space-y-6">
             <div class="form-group">
-                <label for="app-name">اسم النظام</label>
-                <input type="text" id="app-name" name="app-name" placeholder="مثال: نظام الموقوفين">
+                <label for="app-name" class="block text-lg font-cairo font-semibold mb-2">اسم النظام</label>
+                <input type="text" id="app-name" name="app-name" placeholder="مثال: نظام الموقوفين" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-[var(--color-waqf-green)] focus:border-[var(--color-waqf-green)]">
             </div>
 
             <div class="form-group">
-                <label for="primary-color">اللون الأساسي</label>
-                <div class="color-input-wrapper">
-                    <input type="color" id="primary-color" name="primary-color" value="#1b4d3e">
-                    <input type="text" id="primary-color-hex" name="primary-color-hex" placeholder="#1b4d3e">
+                <label for="primary-color" class="block text-lg font-cairo font-semibold mb-2">اللون الأساسي</label>
+                <div class="flex items-center gap-4">
+                    <input type="color" id="primary-color" name="primary-color" value="#1b4d3e" class="p-1 h-12 w-12 block bg-white border border-gray-300 cursor-pointer rounded-lg">
+                    <input type="text" id="primary-color-hex" name="primary-color-hex" placeholder="#1b4d3e" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-[var(--color-waqf-green)] focus:border-[var(--color-waqf-green)]">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="secondary-color">اللون الثانوي</label>
-                <div class="color-input-wrapper">
-                    <input type="color" id="secondary-color" name="secondary-color" value="#f4f7f6">
-                    <input type="text" id="secondary-color-hex" name="secondary-color-hex" placeholder="#f4f7f6">
+                <label for="secondary-color" class="block text-lg font-cairo font-semibold mb-2">اللون الثانوي</label>
+                 <div class="flex items-center gap-4">
+                    <input type="color" id="secondary-color" name="secondary-color" value="#fdfaf6" class="p-1 h-12 w-12 block bg-white border border-gray-300 cursor-pointer rounded-lg">
+                    <input type="text" id="secondary-color-hex" name="secondary-color-hex" placeholder="#fdfaf6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-[var(--color-waqf-green)] focus:border-[var(--color-waqf-green)]">
                 </div>
             </div>
+        </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
-                <a href="/" class="btn btn-secondary">العودة إلى لوحة التحكم</a>
-            </div>
-        </form>
+        <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
+            <button type="submit" class="px-8 py-3 text-white bg-[var(--color-waqf-green)] rounded-lg hover:bg-opacity-90 font-semibold">حفظ التغييرات</button>
+        </div>
+    </form>
+    <div id="response-message" class="mt-4"></div>
+</div>
 
-        <div id="response-message"></div>
+<script>
+    // JavaScript to sync color picker and hex input
+    const setupColorSync = (pickerId, hexInputId) => {
+        const picker = document.getElementById(pickerId);
+        const hexInput = document.getElementById(hexInputId);
+        picker.addEventListener('input', (e) => hexInput.value = e.target.value);
+        hexInput.addEventListener('input', (e) => picker.value = e.target.value);
+    };
+    setupColorSync('primary-color', 'primary-color-hex');
+    setupColorSync('secondary-color', 'secondary-color-hex');
 
-    </div>
+    // Form submission logic
+    document.getElementById('identity-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const responseMsgDiv = document.getElementById('response-message');
+        responseMsgDiv.textContent = '';
+        responseMsgDiv.className = '';
 
-    <script>
-        const colorPicker = document.getElementById('primary-color');
-        const colorHexInput = document.getElementById('primary-color-hex');
-        colorPicker.addEventListener('input', (e) => {
-            colorHexInput.value = e.target.value;
-        });
-        colorHexInput.addEventListener('input', (e) => {
-            colorPicker.value = e.target.value;
-        });
+        const formData = {
+            appName: document.getElementById('app-name').value,
+            primaryColor: document.getElementById('primary-color-hex').value,
+            secondaryColor: document.getElementById('secondary-color-hex').value
+        };
 
-        const secondaryColorPicker = document.getElementById('secondary-color');
-        const secondaryColorHexInput = document.getElementById('secondary-color-hex');
-        secondaryColorPicker.addEventListener('input', (e) => {
-            secondaryColorHexInput.value = e.target.value;
-        });
-        secondaryColorHexInput.addEventListener('input', (e) => {
-            secondaryColorPicker.value = e.target.value;
-        });
+        try {
+            const response = await fetch('/api/identity_settings', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            });
+            const result = await response.json();
+            responseMsgDiv.textContent = result.message;
+            responseMsgDiv.className = response.ok ? 'p-3 rounded-lg bg-green-100 text-green-800' : 'p-3 rounded-lg bg-red-100 text-red-800';
+        } catch (err) {
+            responseMsgDiv.textContent = 'حدث خطأ أثناء الاتصال بالخادم.';
+            responseMsgDiv.className = 'p-3 rounded-lg bg-red-100 text-red-800';
+        }
+    });
+</script>
 
-        document.getElementById('identity-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const appName = document.getElementById('app-name').value;
-            const primaryColor = document.getElementById('primary-color-hex').value;
-            const secondaryColor = document.getElementById('secondary-color-hex').value;
-            
-            const responseMsgDiv = document.getElementById('response-message');
-
-            try {
-                const response = await fetch('/api/identity_settings', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ 
-                        appName: appName, 
-                        primaryColor: primaryColor,
-                        secondaryColor: secondaryColor
-                    })
-                });
-
-                const result = await response.json();
-
-                responseMsgDiv.textContent = result.message;
-                if (response.ok) {
-                    responseMsgDiv.className = 'success';
-                } else {
-                    responseMsgDiv.className = 'error';
-                }
-                responseMsgDiv.style.display = 'block';
-
-            } catch (err) {
-                responseMsgDiv.textContent = 'حدث خطأ أثناء الاتصال بالخادم.';
-                responseMsgDiv.className = 'error';
-                responseMsgDiv.style.display = 'block';
-            }
-        });
-    </script>
-
-</body>
-</html>
+{% endblock %}
