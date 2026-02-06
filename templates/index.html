@@ -1,33 +1,120 @@
 {% extends "base.html" %}
 
-{% block title %}لوحة القيادة{% endblock %}
+{% block title %}الديوان السيادي{% endblock %}
 
 {% block content %}
-<div class="mb-8">
-    <h2 class="text-4xl font-bold text-[var(--color-waqf-green)] font-amiri">لوحة القيادة</h2>
-    <p class="text-gray-600 mt-2 font-cairo">نظرة عامة على أصول النظام الرقمية الحالية.</p>
+<style>
+    .card {
+        background-color: var(--color-pure-white);
+        border-radius: 1.5rem; /* More rounded */
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 100% 100%, transparent 40%, var(--highlight-color) 180%);
+        opacity: 0;
+        transition: opacity 0.6s ease;
+    }
+
+    .card:hover:before {
+        opacity: 0.1;
+    }
+
+    .card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-icon-wrapper {
+        transition: transform 0.4s ease;
+    }
+
+    .card:hover .card-icon-wrapper {
+        transform: scale(1.1);
+    }
+
+    .card-border {
+        border-bottom: 6px solid var(--highlight-color);
+    }
+    
+    .stat-number {
+        font-family: 'Amiri', serif;
+        transition: color 0.4s ease;
+    }
+
+    .card:hover .stat-number {
+        color: var(--highlight-color);
+    }
+</style>
+
+<div class="mb-10">
+    <h2 class="text-4xl font-bold text-[var(--color-waqf-green)] font-amiri">الديوان السيادي</h2>
+    <p class="text-gray-500 mt-2 font-cairo text-lg">نظرة معمارية على كنوز الوقف الرقمية.</p>
 </div>
 
-<!-- شبكة البطاقات الإحصائية -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- الشبكة الثورية للهوية الرباعية -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-    <!-- بطاقة عدد المخطوطات -->
-    <div class="bg-[var(--color-pure-white)] rounded-xl shadow-md p-6 border-r-4 border-[var(--color-waqf-green)] transition hover:shadow-lg hover:-translate-y-1">
-        <h3 class="text-lg font-cairo text-gray-500">عدد المخطوطات</h3>
-        <p class="text-5xl font-bold text-[var(--color-ink-black)] mt-2">١,٢٥٠</p>
+    <!-- 1. المخطوطات -->
+    <div class="card card-border" style="--highlight-color: var(--color-waqf-green);">
+        <div class="p-8 flex flex-col items-center text-center">
+            <div class="card-icon-wrapper p-4 bg-green-50 rounded-full mb-4">
+                <svg class="h-12 w-12 text-[var(--color-waqf-green)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-amiri font-bold text-[var(--color-ink-black)]">المخطوطات</h3>
+            <p class="stat-number text-6xl font-bold text-gray-800 mt-3">١,٢٥٠</p>
+        </div>
     </div>
 
-    <!-- بطاقة الوثائق الوقفية -->
-    <div class="bg-[var(--color-pure-white)] rounded-xl shadow-md p-6 border-r-4 border-[var(--color-ornament-gold)] transition hover:shadow-lg hover:-translate-y-1">
-        <h3 class="text-lg font-cairo text-gray-500">الوثائق الوقفية</h3>
-        <p class="text-5xl font-bold text-[var(--color-ink-black)] mt-2">٣١٢</p>
+    <!-- 2. الوثائق الوقفية -->
+    <div class="card card-border" style="--highlight-color: var(--color-ornament-gold);">
+        <div class="p-8 flex flex-col items-center text-center">
+            <div class="card-icon-wrapper p-4 bg-yellow-50 rounded-full mb-4">
+                 <svg class="h-12 w-12 text-[var(--color-ornament-gold)]"  fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-amiri font-bold text-[var(--color-ink-black)]">الوثائق</h3>
+            <p class="stat-number text-6xl font-bold text-gray-800 mt-3">٣١٢</p>
+        </div>
     </div>
 
-    <!-- بطاقة المكتبات المسجلة -->
-    <div class="bg-[var(--color-pure-white)] rounded-xl shadow-md p-6 border-r-4 border-[var(--color-sky-blue)] transition hover:shadow-lg hover:-translate-y-1">
-        <h3 class="text-lg font-cairo text-gray-500">المكتبات المسجلة</h3>
-        <p class="text-5xl font-bold text-[var(--color-ink-black)] mt-2">٤٢</p>
+    <!-- 3. المكتبات -->
+    <div class="card card-border" style="--highlight-color: var(--color-sky-blue);">
+        <div class="p-8 flex flex-col items-center text-center">
+            <div class="card-icon-wrapper p-4 bg-blue-50 rounded-full mb-4">
+                <svg class="h-12 w-12 text-[var(--color-sky-blue)]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-amiri font-bold text-[var(--color-ink-black)]">المكتبات</h3>
+            <p class="stat-number text-6xl font-bold text-gray-800 mt-3">٤٢</p>
+        </div>
     </div>
-
+    
+    <!-- 4. الوقف -->
+    <div class="card card-border" style="--highlight-color: #8a3ffc;">
+        <div class="p-8 flex flex-col items-center text-center">
+            <div class="card-icon-wrapper p-4 bg-purple-50 rounded-full mb-4">
+                <svg class="w-12 h-12 text-[#8a3ffc]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1012 10.125A2.625 2.625 0 0012 4.875z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.125v1.875m-3.75-3.75H12a3.75 3.75 0 013.75 3.75v.375m-7.5 0V15a2.25 2.25 0 002.25 2.25H15M12 10.125c-1.354 0-2.599-.432-3.642-1.158a11.962 11.962 0 01-5.69-5.69A.656.656 0 012.25 2.25h19.5c.224 0 .424.123.541.317-.003.004-.006.007-.008.01a11.962 11.962 0 01-5.69 5.69c-1.043.726-2.288 1.158-3.642 1.158z" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-amiri font-bold text-[var(--color-ink-black)]">الأوقاف</h3>
+            <p class="stat-number text-6xl font-bold text-gray-800 mt-3">٧</p>
+        </div>
+    </div>
 </div>
 {% endblock %}
