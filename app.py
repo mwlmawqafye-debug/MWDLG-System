@@ -7,6 +7,9 @@ from flask import Flask, request, jsonify, render_template
 from engine.ui_engine import DynamicUIEngine
 from engine.workflow_engine import WorkflowEngine
 
+# --- Sovereign Schema Import ---
+from sovereign_schema import SOVEREIGN_ENTITIES
+
 # --- Firebase Initialization ---
 # This block handles Firebase connection for both Render (using env vars)
 # and local development (using a key file).
@@ -48,8 +51,8 @@ def before_request_func():
 
 @app.route('/')
 def index():
-    # Renders the new Enterprise Dashboard
-    return render_template('index.html')
+    # Renders the new Enterprise Dashboard, now driven by the Sovereign Schema
+    return render_template('index.html', sovereign_entities=SOVEREIGN_ENTITIES)
 
 @app.route('/identity_and_appearance')
 def identity_and_appearance_manager():
