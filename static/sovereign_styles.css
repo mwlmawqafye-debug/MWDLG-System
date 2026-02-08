@@ -1,106 +1,56 @@
-
 /*
 ================================
 الأنماط السيادية (Sovereign Styles)
 ================================
-هذا الملف هو المصدر المركزي للغة التصميم البصرية للنظام.
-تم استخلاصه من "المخطط السيادي" الذي قدمه المستخدم.
 */
 
 :root {
-    /* الألوان التراثية الأصلية */
-    --color-waqf-green: #0f3d3e;
-    --color-manuscript-tan: #e2d8c3;
-    --color-ornament-gold: #c5a065;
-    --color-sky-blue: #3498db;
-    --color-stone-gray: #34495e;
+    /* 1. الألوان الأساسية للهوية */
+    --color-primary: #0f3d3e; /* أخضر وقفي عميق */
+    --color-secondary: #d4c5a3; /* لون الرق/المخطوطة */
+    --color-accent: #c5a065; /* ذهبي زخرفي */
 
-    /* نظام الألوان الجديد المستوحى من Angular */
-    --color-primary: var(--color-waqf-green);
-    --color-secondary: var(--color-stone-gray);
-    --color-accent: var(--color-ornament-gold);
-    --color-background: #f8f9fa; /* لون خلفية أفتح وأنظف */
-    --color-surface: #ffffff;    /* لون الأسطح مثل البطاقات */
-    --color-text-primary: #212529;
-    --color-text-secondary: #6c757d;
-    --color-border: #dee2e6;
+    /* 2. ألوان الواجهة الوظيفية */
+    --color-background-main: #f4f1eb; /* خلفية ناعمة بلون ورق البردي */
+    --color-surface: #ffffff;    /* لون الأسطح مثل البطاقات والنماذج */
+    --color-border: #e0e0e0;     /* لون الحدود والفواصل */
+    
+    /* 3. ألوان النصوص */
+    --color-text-primary: #1a1a1a;  /* أسود فحمي ناعم */
+    --color-text-secondary: #5c5c5c;
+    --color-text-on-primary: #ffffff; /* نص أبيض على الخلفية الأساسية */
 
-    /* الظلال */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    /* 4. مكونات الهيكل: القائمة العلوية والجانبية */
+    
+    /* القائمة العلوية */
+    --color-header-bg: var(--color-primary);
+    --color-header-border: #1a4d4e; /* درجة أغمق قليلاً من الأساسي */
+    --color-header-text: var(--color-secondary); /* اللون الذهبي/البني */
 
-    /* أنماط الخطوط */
-    --font-family-sans: 'Cairo', sans-serif;
-    --font-family-serif: 'Amiri', serif;
+    /* القائمة الجانبية */
+    --color-sidebar-bg: #fdfcf9;
+    --color-sidebar-border: #ece8e1;
+    --color-sidebar-text: #3d3b36;
+    --color-sidebar-hover: #f4f1eb;
+    --color-sidebar-active-bg: #e6f0ee;
+    --color-sidebar-active-text: var(--color-primary);
+
+    /* 5. الخطوط */
+    --font-heading: 'Amiri', serif;
+    --font-body: 'Cairo', sans-serif;
 }
 
 body {
-    font-family: var(--font-family-sans);
-    background-color: var(--color-background);
+    font-family: var(--font-body);
+    background-color: var(--color-background-main);
     color: var(--color-text-primary);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-family-serif);
+h1, h2, h3, h4, h5, h6, .font-sovereign {
+    font-family: var(--font-heading);
     font-weight: 700;
 }
 
-.card {
-    background-color: var(--color-surface);
-    border-radius: 0.5rem; /* 8px */
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-md);
-    padding: 1.5rem; /* 24px */
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem 1rem; /* 8px 16px */
-    border-radius: 0.375rem; /* 6px */
-    font-weight: 600;
-    transition: all 150ms ease-in-out;
-    box-shadow: var(--shadow);
-}
-
-.btn:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-lg);
-}
-
-.btn-primary {
-    background-color: var(--color-primary);
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: #0c3132; /* A slightly darker shade */
-}
-
-.sidebar {
-    background-color: #111827; /* Darker than the old gray-800 */
-}
-
-.sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem; /* 12px */
-    padding: 0.75rem 1rem; /* 12px 16px */
-    border-radius: 0.375rem; /* 6px */
-    color: #d1d5db; /* gray-300 */
-    transition: background-color 150ms;
-}
-
-.sidebar-link:hover {
-    background-color: #374151; /* gray-700 */
-    color: white;
-}
-
-.sidebar-link.active {
-    background-color: var(--color-primary);
-    color: white;
-    font-weight: 600;
+header h1 {
+    color: var(--color-header-text);
 }
