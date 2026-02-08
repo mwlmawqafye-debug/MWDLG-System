@@ -1,0 +1,42 @@
+<header class="flex items-center justify-between px-6 py-3 shadow-md" style="background-color: var(--color-header-bg); border-bottom: 1px solid var(--color-header-border);">
+    <div class="flex items-center">
+        <!-- Mobile Sidebar Toggle (Placeholder) -->
+        <button class="text-white focus:outline-none lg:hidden">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+
+        <!-- Page Title -->
+        <div class="relative text-white mx-4">
+            <h1 class="text-lg font-semibold font-sovereign">
+                {% block page_title %}
+                    لوحة القيادة
+                {% endblock %}
+            </h1>
+        </div>
+    </div>
+
+    <div class="flex items-center gap-4" x-data="{ dropdownOpen: false }">
+        <!-- Search Bar -->
+        <div class="relative hidden md:block">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <svg class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <input type="text" class="w-full py-2 pl-10 pr-4 text-white border-gray-600 rounded-md focus:border-gray-500 focus:ring-gray-500 sm:text-sm" placeholder="بحث..." style="background-color: rgba(255,255,255,0.1);">
+        </div>
+
+        <!-- User Dropdown -->
+        <div class="relative">
+            <button @click="dropdownOpen = !dropdownOpen" class="relative block h-8 w-8 rounded-full overflow-hidden shadow focus:outline-none">
+                <img class="h-full w-full object-cover" src="https://ui-avatars.com/api/?name=User&background=d4c5a3&color=1b4d3e" alt="Your avatar">
+            </button>
+            <div x-show="dropdownOpen" @click.away="dropdownOpen = false" x-transition class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-xl z-20" style="display: none;">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">الملف الشخصي</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">تسجيل الخروج</a>
+            </div>
+        </div>
+    </div>
+</header>
