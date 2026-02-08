@@ -1,56 +1,148 @@
-/*
-================================
-الأنماط السيادية (Sovereign Styles)
-================================
-*/
-
+/* إعداد متغيرات الهوية الافتراضية */
 :root {
-    /* 1. الألوان الأساسية للهوية */
-    --color-primary: #0f3d3e; /* أخضر وقفي عميق */
-    --color-secondary: #d4c5a3; /* لون الرق/المخطوطة */
-    --color-accent: #c5a065; /* ذهبي زخرفي */
+  /* ألوان المحتوى الرئيسي */
+  --color-primary: #1b4d3e; 
+  --color-secondary: #d4c5a3; 
+  --color-bg: #f9fafb;
+  --color-text: #1f2937;
+  
+  /* ألوان رأس النظام (الجديدة - لدعم فرابي) */
+  --color-header-bg: #1b4d3e;
+  --color-header-text: #ffffff;
+  --color-header-border: rgba(212, 197, 163, 0.3);
 
-    /* 2. ألوان الواجهة الوظيفية */
-    --color-background-main: #f4f1eb; /* خلفية ناعمة بلون ورق البردي */
-    --color-surface: #ffffff;    /* لون الأسطح مثل البطاقات والنماذج */
-    --color-border: #e0e0e0;     /* لون الحدود والفواصل */
-    
-    /* 3. ألوان النصوص */
-    --color-text-primary: #1a1a1a;  /* أسود فحمي ناعم */
-    --color-text-secondary: #5c5c5c;
-    --color-text-on-primary: #ffffff; /* نص أبيض على الخلفية الأساسية */
+  /* ألوان القائمة الجانبية */
+  --color-sidebar-bg: #ffffff;
+  --color-sidebar-text: #374151;
+  --color-sidebar-border: #e5e7eb;
+  --color-sidebar-hover: #f3f4f6;
+  --color-sidebar-active-bg: #eff6ff;
+  --color-sidebar-active-text: #1b4d3e;
 
-    /* 4. مكونات الهيكل: القائمة العلوية والجانبية */
-    
-    /* القائمة العلوية */
-    --color-header-bg: var(--color-primary);
-    --color-header-border: #1a4d4e; /* درجة أغمق قليلاً من الأساسي */
-    --color-header-text: var(--color-secondary); /* اللون الذهبي/البني */
-
-    /* القائمة الجانبية */
-    --color-sidebar-bg: #fdfcf9;
-    --color-sidebar-border: #ece8e1;
-    --color-sidebar-text: #3d3b36;
-    --color-sidebar-hover: #f4f1eb;
-    --color-sidebar-active-bg: #e6f0ee;
-    --color-sidebar-active-text: var(--color-primary);
-
-    /* 5. الخطوط */
-    --font-heading: 'Amiri', serif;
-    --font-body: 'Cairo', sans-serif;
+  /* الخطوط */
+  --font-title: 'Cairo', sans-serif;
+  --font-body: 'Cairo', sans-serif;
 }
 
 body {
-    font-family: var(--font-body);
-    background-color: var(--color-background-main);
-    color: var(--color-text-primary);
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1, h2, h3, h4, h5, h6, .font-sovereign {
-    font-family: var(--font-heading);
-    font-weight: 700;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-body);
 }
 
-header h1 {
-    color: var(--color-header-text);
+.font-sovereign {
+  font-family: var(--font-title) !important;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; 
+}
+
+.sovereign-pattern {
+  background-image: radial-gradient(var(--color-primary) 0.5px, transparent 0.5px), radial-gradient(var(--color-primary) 0.5px, var(--color-bg) 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  opacity: 0.03;
+}
+
+/* --- الهوية البصرية الجديدة: المخطوطة السيادية (Sovereign Manuscript) --- */
+
+/* 1. زوايا قطة القلم (Qalam Corners): حاد من جهة، منحني من جهة */
+.qalam-corners {
+  border-radius: 4px 20px 4px 20px !important;
+}
+
+.qalam-corners-inverse {
+  border-radius: 20px 4px 20px 4px !important;
+}
+
+/* 2. البطاقة السيادية (Sovereign Card) */
+.sovereign-card {
+  border-radius: 4px 24px 4px 24px;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sovereign-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  border-color: var(--color-secondary);
+}
+
+/* الشريط العلوي المذهب الحي (Living Gold Bar) */
+.sovereign-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary), var(--color-primary), var(--color-secondary));
+  background-size: 300% 100%;
+  animation: shimmer-gold 8s linear infinite;
+  opacity: 0.8;
+}
+
+/* 3. حقول الإدخال التراثية */
+.sovereign-input {
+  border-radius: 2px 12px 2px 12px !important;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+.sovereign-input:focus {
+  border-color: var(--color-secondary) !important;
+  box-shadow: 0 0 0 2px rgba(212, 197, 163, 0.2) !important;
+}
+
+/* 4. الأزرار السيادية */
+.sovereign-btn {
+  border-radius: 4px 12px 4px 12px !important;
+  position: relative;
+  overflow: hidden;
+}
+.sovereign-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  background-size: 200% 200%;
+  animation: shimmer-light 3s infinite;
+  pointer-events: none;
+}
+
+/* 5. الحركة اللونية (Animations) */
+@keyframes shimmer-gold {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes shimmer-light {
+  0% { background-position: 150% 150%; }
+  100% { background-position: -50% -50%; }
+}
+
+/* 6. تأثير التوهج للنصوص (Text Glow) */
+.heritage-glow-text {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary), var(--color-primary));
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer-gold 5s linear infinite;
 }

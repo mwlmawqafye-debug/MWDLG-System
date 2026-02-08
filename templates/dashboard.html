@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}لوحة القيادة - نظام MWDLG{% endblock %}
+
+{% block page_title %}
+    لوحة القيادة
+{% endblock %}
+
+{% block content %}
+
+<!-- Section Title -->
+<div class="mb-8">
+    <h2 class="text-3xl font-bold font-sovereign" style="color: var(--color-primary);">نظرة عامة على النظام</h2>
+    <p style="color: var(--color-text-secondary);" class="mt-2">ملخص حي ومباشر لأهم مؤشرات الأداء في النظام.</p>
+</div>
+
+<!-- Stat Cards Grid -->
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+
+    <!-- Manuscripts Card -->
+    <div class="sovereign-card p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium uppercase tracking-wider" style="color: var(--color-text-secondary);">المخطوطات</p>
+                <p class="text-3xl font-bold" style="color: var(--color-primary);">5,280</p>
+            </div>
+            <div class="p-3 rounded-full" style="background-color: var(--color-primary); color: white;">
+                 <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Documents Card -->
+    <div class="sovereign-card p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium uppercase tracking-wider" style="color: var(--color-text-secondary);">الوثائق</p>
+                <p class="text-3xl font-bold" style="color: var(--color-primary);">12,654</p>
+            </div>
+            <div class="p-3 rounded-full" style="background-color: var(--color-primary); color: white;">
+                <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tasks Card -->
+    <div class="sovereign-card p-6">
+       <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium uppercase tracking-wider" style="color: var(--color-text-secondary);">المهام الجارية</p>
+                <p class="text-3xl font-bold" style="color: var(--color-primary);">12</p>
+            </div>
+            <div class="p-3 rounded-full" style="background-color: var(--color-primary); color: white;">
+                 <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Card -->
+    <div class="sovereign-card p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium uppercase tracking-wider" style="color: var(--color-text-secondary);">المستخدمون</p>
+                <p class="text-3xl font-bold" style="color: var(--color-primary);">43</p>
+            </div>
+            <div class="p-3 rounded-full" style="background-color: var(--color-primary); color: white;">
+                 <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.124-1.282-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.124-1.282.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
